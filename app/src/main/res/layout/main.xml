@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="top|center_horizontal"
+		android:orientation="vertical"
+		android:padding="10dp">
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical|center_horizontal"
+			android:background="@drawable/bordered_view"
+			android:padding="10dp">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="-f"
+				android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+			<AutoCompleteTextView
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:inputType="textAutoComplete|textAutoCorrect"
+				android:padding="10dp"
+				android:background="@drawable/bordered_view"
+				android:id="@+id/pkgName"
+				android:layout_marginStart="10dp"
+				android:layout_weight="1"/>
+
+			<Button
+				android:layout_width="50dp"
+				android:layout_height="match_parent"
+				android:text="Launch"
+				android:layout_marginStart="10dp"
+				android:background="@drawable/button"
+				android:onClick="launchClicked"
+				android:layout_weight="1.0"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="JavaScript code"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:background="@drawable/bordered_view"
+				android:id="@+id/codeTab"
+				android:onClick="tabClicked"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Output"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_marginStart="10dp"
+				android:id="@+id/outputTab"
+				android:onClick="tabClicked"/>
+
+		</LinearLayout>
+
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<EditText
+				android:layout_width="match_parent"
+				android:inputType="textMultiLine"
+				android:layout_height="200dp"
+				android:ems="10"
+				android:layout_marginTop="10dp"
+				android:textAlignment="gravity"
+				android:gravity="top|left"
+				android:background="@drawable/bordered_view"
+				android:padding="10dp"
+				android:id="@+id/scriptInput"/>
+
+			<EditText
+				android:layout_width="match_parent"
+				android:inputType="textMultiLine"
+				android:layout_height="200dp"
+				android:ems="10"
+				android:layout_marginTop="10dp"
+				android:textAlignment="gravity"
+				android:gravity="top|left"
+				android:background="@drawable/bordered_view"
+				android:padding="10dp"
+				android:id="@+id/outputLog"
+				android:visibility="gone"/>
+
+		</FrameLayout>
+
+	</LinearLayout>
+
+</ScrollView>
+
