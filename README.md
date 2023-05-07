@@ -1,2 +1,18 @@
-# DroidFrida
-Portable frida injector for rooted android devices.
+<center><img width=100% src="https://github.com/acess0r/DroidFrida/blob/main/logo.png?raw=true"/></center>
+
+DroidFrida is an android app for executing frida scripts directly on your android device. Frida is a dynamic instrumentation framework that allows to edit memory and hook methods, which is very useful when analyzing and cracking application (including games). Frida gives large posibilities, and I use it very often, so I created an app to use it easily.|
+
+### Progress
+
+- [X] Basic frida script execution on the target app
+- [ ] Improve UI, add optional floating activity for output
+- [ ] Script repository browser
+
+
+### Usage
+
+You will need root access (or vphone) on your phone otherwise this won't work. Enter the package name of the target application as the -f flag and input your script  in the text field. You will be able to run target app with the frida injection.
+
+### Documentation
+
+You can find documentation for frida javascript api <a href="https://frida.re/docs/javascript-api/">here</a>.
