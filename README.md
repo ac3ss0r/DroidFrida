@@ -2,11 +2,11 @@
 
 DroidFrida is an android app for executing frida scripts directly on your android device. Frida is a dynamic instrumentation framework that allows to edit memory and hook methods, which is very useful when analyzing and cracking application (including games). Frida gives large posibilities, and I use it very often, so I created an app to use it easily.
 
-<center>
-<img width=30% src="https://github.com/ac3ss0r/DroidFrida/blob/main/preview1.png?raw=true"/>
-<img width=30% src="https://github.com/ac3ss0r/DroidFrida/blob/main/preview2.png?raw=true"/>
-<img width=30% src="https://github.com/ac3ss0r/DroidFrida/blob/main/preview3.png?raw=true"/>
-</center>
+<center><p float="left">
+  <img width=30% src="https://github.com/ac3ss0r/DroidFrida/blob/main/preview1.png?raw=true"/>
+  <img width=30% src="https://github.com/ac3ss0r/DroidFrida/blob/main/preview2.png?raw=true"/>
+  <img width=30% src="https://github.com/ac3ss0r/DroidFrida/blob/main/preview3.png?raw=true"/>
+</p></center>
 
 ### Progress
 
