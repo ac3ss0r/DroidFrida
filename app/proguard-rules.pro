@@ -1,6 +1,11 @@
--keepattributes SourceFile, LineNumberTable
--renamesourcefileattribute SourceFile
--repackageclasses
--ignorewarnings
--dontwarn
--dontnote
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
+-verbose
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class com.android.vending.licensing.ILicensingService

@@ -2,6 +2,19 @@
 <resources>
 
     <string name="app_name">DroidFrida</string>
-    <string name="hello_world">Hello, World!</string>
+	
+	<string-array name="js_options">
+        <item>Format code</item>
+        <item>Minify code</item>
+        <item>Obfuscate code</item>
+    </string-array>
+	
+	<string-array name="offline_scripts">
+        <item>AntiRootDetection.js</item>
+		<item>SSLUnpinUniversal.js</item>
+        <item>MethodTraceJava.js</item>
+        <item>NativeMethodTrace.js</item>
+		<item>NativeHexPatching.js</item>
+    </string-array>
 
 </resources>

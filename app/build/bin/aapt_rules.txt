@@ -1,10 +1,30 @@
+# view res/layout/main.xml #generated:106
+-keep class acessor.droidfrida.CodeView { <init>(...); }
+
+# view res/layout/main.xml #generated:149
+-keep class acessor.droidfrida.FixedSpinner { <init>(...); }
+
 # view AndroidManifest.xml #generated:19
 -keep class acessor.droidfrida.MainActivity { <init>(...); }
 
-# onClick res/layout/main.xml #generated:38
+# onClick res/layout/main.xml #generated:40
 -keepclassmembers class * { *** launchClicked(...); }
 
-# onClick res/layout/main.xml #generated:55
-# onClick res/layout/main.xml #generated:64
+# onClick res/layout/main.xml #generated:124
+-keepclassmembers class * { *** onJsOptionClicked(...); }
+
+# onClick res/layout/main.xml #generated:131
+-keepclassmembers class * { *** onOpenScriptClicked(...); }
+
+# onClick res/layout/main.xml #generated:139
+-keepclassmembers class * { *** onSaveScriptClicked(...); }
+
+# onClick res/layout/main.xml #generated:223
+-keepclassmembers class * { *** onWrapSettingClicked(...); }
+
+# onClick res/layout/main.xml #generated:57
+# onClick res/layout/main.xml #generated:66
+# onClick res/layout/main.xml #generated:75
+# onClick res/layout/main.xml #generated:84
 -keepclassmembers class * { *** tabClicked(...); }
 

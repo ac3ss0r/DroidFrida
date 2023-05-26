@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:background="@drawable/border_a"
+	android:fillViewport="true">
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -16,7 +18,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center_vertical|center_horizontal"
-			android:background="@drawable/bordered_view"
+			android:background="@drawable/border_a"
 			android:padding="10dp">
 
 			<TextView
@@ -30,7 +32,7 @@
 				android:layout_height="wrap_content"
 				android:inputType="textAutoComplete|textAutoCorrect"
 				android:padding="10dp"
-				android:background="@drawable/bordered_view"
+				android:background="@drawable/border_a"
 				android:id="@+id/pkgName"
 				android:layout_marginStart="10dp"
 				android:layout_weight="1"/>
@@ -50,14 +52,14 @@
 			android:orientation="horizontal"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="10dp">
+			android:layout_margin="10dp">
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="JavaScript code"
 				android:textAppearance="?android:attr/textAppearanceMedium"
-				android:background="@drawable/bordered_view"
+				android:background="@drawable/border_a"
 				android:id="@+id/codeTab"
 				android:onClick="tabClicked"/>
 
@@ -70,40 +72,204 @@
 				android:id="@+id/outputTab"
 				android:onClick="tabClicked"/>
 
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Scripts"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_marginStart="10dp"
+				android:id="@+id/scriptsTab"
+				android:onClick="tabClicked"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Settings"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_marginStart="10dp"
+				android:id="@+id/settingsTab"
+				android:onClick="tabClicked"/>
+
 		</LinearLayout>
 
 		<FrameLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="match_parent">
 
-			<EditText
+			<FrameLayout
+				android:orientation="vertical"
 				android:layout_width="match_parent"
-				android:inputType="textMultiLine"
-				android:layout_height="200dp"
-				android:ems="10"
-				android:layout_marginTop="10dp"
-				android:textAlignment="gravity"
-				android:gravity="top|left"
-				android:background="@drawable/bordered_view"
-				android:padding="10dp"
-				android:id="@+id/scriptInput"/>
+				android:layout_height="match_parent"
+				android:id="@+id/editorTabPanel"
+				android:gravity="center_horizontal">
 
-			<EditText
+				<acessor.droidfrida.CodeView
+					android:layout_width="match_parent"
+					android:inputType="textMultiLine"
+					android:layout_height="match_parent"
+					android:textAlignment="gravity"
+					android:gravity="top|left"
+					android:background="@drawable/border_a"
+					android:id="@+id/scriptInput"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:padding="10dp"/>
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="end"
+					android:layout_margin="10dp">
+
+					<ImageButton
+						android:src="@android:drawable/btn_star"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:background="@drawable/border_b"
+						android:onClick="onJsOptionClicked"/>
+
+					<ImageButton
+						android:src="@drawable/open_icon"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:background="@drawable/border_b"
+						android:scaleType="fitCenter"
+						android:onClick="onOpenScriptClicked"/>
+
+					<ImageButton
+						android:src="@drawable/save_icon"
+						android:layout_width="40dp"
+						android:layout_height="40dp"
+						android:background="@drawable/border_b"
+						android:scaleType="fitCenter"
+						android:onClick="onSaveScriptClicked"/>
+
+				</LinearLayout>
+
+				<acessor.droidfrida.FixedSpinner
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:visibility="gone"
+					android:id="@+id/jsOptionMenu"
+					android:spinnerMode="dialog"/>
+
+			</FrameLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
 				android:layout_width="match_parent"
-				android:inputType="textMultiLine"
-				android:layout_height="200dp"
-				android:ems="10"
-				android:layout_marginTop="10dp"
-				android:textAlignment="gravity"
-				android:gravity="top|left"
-				android:background="@drawable/bordered_view"
+				android:layout_height="match_parent"
+				android:id="@+id/ouputTabPanel"
+				android:visibility="gone">
+
+				<EditText
+					android:layout_width="match_parent"
+					android:inputType="textMultiLine"
+					android:layout_height="match_parent"
+					android:textAlignment="gravity"
+					android:gravity="top|left"
+					android:background="@drawable/border_a"
+					android:padding="10dp"
+					android:id="@+id/outputLog"
+					android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="@drawable/border_a"
 				android:padding="10dp"
-				android:id="@+id/outputLog"
-				android:visibility="gone"/>
+				android:visibility="gone"
+				android:id="@+id/scriptsTabPanel">
+
+				<ListView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:id="@+id/scriptsList"/>
+
+			</LinearLayout>
+
+			<ScrollView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/settingsTabPanel"
+				android:visibility="gone">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent">
+
+					<LinearLayout
+						android:orientation="vertical"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:background="@drawable/border_a"
+						android:padding="10dp"
+						android:gravity="center_horizontal"
+						android:paddingTop="10dp">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="Editor settings"
+							android:textAppearance="?android:attr/textAppearanceMedium"
+							android:textAlignment="gravity"
+							android:gravity="center_horizontal"
+							android:background="@drawable/border_b"/>
+
+						<CheckBox
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:checked="true"
+							android:text="Word wrapping"
+							android:onClick="onWrapSettingClicked"/>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="Obfuscation settings"
+							android:textAppearance="?android:attr/textAppearanceMedium"
+							android:background="@drawable/border_b"
+							android:gravity="center_horizontal"
+							android:textAlignment="gravity"/>
+
+						<LinearLayout
+							android:orientation="horizontal"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content">
+
+							<CheckBox
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Obfuscation"/>
+
+							<CheckBox
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Packing (eval)"/>
+
+						</LinearLayout>
+
+					</LinearLayout>
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Github - https://github.com/ac3ss0r/DroidFrida\nMade by Acessor"
+						android:textAppearance="?android:attr/textAppearanceSmall"
+						android:textAlignment="gravity"
+						android:gravity="center_vertical|center_horizontal"/>
+
+				</LinearLayout>
+
+			</ScrollView>
 
 		</FrameLayout>
 
 	</LinearLayout>
 
-</ScrollView>
+</LinearLayout>
 

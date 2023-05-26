@@ -8,6 +8,6 @@
 	android:textColor="#FFFFFFFF"
 	android:textAlignment="gravity"
 	android:gravity="center_horizontal"
-	android:background="@drawable/bordered_view"
+	android:background="@drawable/border_a"
 />
 
