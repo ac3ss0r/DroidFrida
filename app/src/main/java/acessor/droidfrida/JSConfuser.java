@@ -100,6 +100,7 @@ public class JSConfuser {
 			}
 		});
 
+		/*
 		applyBlockReplacement(INTEGER_PATTERN, new MatchEvent() {
 			@Override
 			public String onMatch(Matcher matcher, String jsCode) {
@@ -110,7 +111,7 @@ public class JSConfuser {
 				} else
 					return block;
 			}
-		});
+		});*/
 
 		return this.sb.toString();
 	}

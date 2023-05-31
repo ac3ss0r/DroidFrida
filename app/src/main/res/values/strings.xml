@@ -11,6 +11,7 @@
 	
 	<string-array name="offline_scripts">
         <item>AntiRootDetection.js</item>
+		<item>SSLUnpinUniversal.js</item>
         <item>MethodTraceJava.js</item>
         <item>NativeMethodTrace.js</item>
 		<item>NativeHexPatching.js</item>

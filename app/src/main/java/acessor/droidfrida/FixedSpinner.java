@@ -4,10 +4,16 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Spinner;
 
-public class JSpinner extends Spinner {
+/* The default spinner doesnt fire its events 
+when the selection is made, thats a bug in 
+standard android library. To fix that this
+class was made
+*/
+
+public class FixedSpinner extends Spinner {
   OnItemSelectedListener listener;
 
-  public JSpinner(Context context, AttributeSet attrs) {
+  public FixedSpinner(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
