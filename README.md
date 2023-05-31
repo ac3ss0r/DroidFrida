@@ -11,9 +11,9 @@ DroidFrida is an android app for executing frida scripts directly on your androi
 ### Progress
 
 - [X] Basic frida script execution on the target app
-- [ ] Improve UI, add optional floating activity for output
-- [ ] Script repository browser
-
+- [X] Improve UI, add settings
+- [X] Add example scripts list
+- [ ] Implement code formatting and obfuscation
 
 ### Usage
 
