@@ -1,5 +1,6 @@
 package acessor.droidfrida;
 
+import acessor.droidfrida.ui.FixedSpinner;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,7 +15,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.stericson.RootShell.RootShell;
@@ -35,9 +38,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterOutputStream;
-import android.widget.CheckBox;
 
 public class MainActivity extends Activity {
+
+	// frida instalation path (from where frida will be executed)
+	private static final String fridaBinaryPath = "/data/local/tmp/frida64";
+	// data path (used to store scripts and settings)
+	private static final String appDataPath = "/data/data/" + BuildConfig.class.getPackage().getName()+ "/";
 
 	private HashMap<View, View> tabs;
 	private AutoCompleteTextView pkgName;
@@ -45,6 +52,9 @@ public class MainActivity extends Activity {
 	private TextView scriptOutput;
 	private FixedSpinner jsOptionMenu;
 	private ListView scriptsList;
+	private TextView fridaStatus;
+
+	private RadioButton settingSpawnNew;
 
 	private Shell rootShell;  
 
@@ -63,6 +73,8 @@ public class MainActivity extends Activity {
 				 findViewById(R.id.settingsTabPanel));
 		pkgName = findViewById(R.id.pkgName);
 		pkgName.setAdapter(getInstalledAppNames());
+		settingSpawnNew = findViewById(R.id.settingSpawnNew);
+		fridaStatus = findViewById(R.id.fridaStatus);
 		scriptInput = findViewById(R.id.scriptInput);
 		scriptInput.setHorizontallyScrolling(true);
 		scriptOutput = findViewById(R.id.outputLog);
@@ -95,7 +107,6 @@ public class MainActivity extends Activity {
 				public void onNothingSelected(AdapterView<?> parentView) { }
 
 			});
-
 		scriptsList = findViewById(R.id.scriptsList);
 		scriptsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
@@ -109,7 +120,7 @@ public class MainActivity extends Activity {
 			});
 		scriptsList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, 
 														getResources().getStringArray(R.array.offline_scripts)));
-		String initScriptPath = "/data/data/" + getPackageName() + "/script.js";
+		String initScriptPath = appDataPath  + "script.js";
 		if (new File(initScriptPath).exists()) {
 			try {
 				scriptInput.setText(readTextFile(initScriptPath));
@@ -120,13 +131,18 @@ public class MainActivity extends Activity {
 		}
 
 		if (RootTools.isRootAvailable() && RootTools.isAccessGiven()) {
-			String basePath = "/data/data/" + getPackageName().toString();
 			try {
-				File fridaBin = new File(basePath + "/frida64");
-				if (!fridaBin.exists())
-					extractAsset("frida64.zip", fridaBin.getPath());
+				File fridaBin = new File(fridaBinaryPath);
+				String extractPath = appDataPath + "frida64";
+				if (!fridaBin.getParentFile().exists()) 
+					rootShell.runRootCommand(new Command(0, new String[]{"mkdir " + fridaBin.getParent()}));
+				if (!fridaBin.exists()) {
+					extractAsset("frida64.zip", extractPath);
+					rootShell.runRootCommand(new Command(1, new String[]{"mv \"" + extractPath + "\" \"" + fridaBin.getPath() + "\""}));
+				}
 				if (!fridaBin.canExecute())
-					rootShell.runRootCommand(new Command(0, new String[]{"chmod +x " + fridaBin.getPath()}));
+					rootShell.runRootCommand(new Command(2, new String[]{"chmod 777 " + fridaBin.getPath()}));
+				fridaStatus.setText("Installed to " + fridaBinaryPath);
 			}
 			catch (Exception e) {
 				showDialog("Error", e.getMessage(), false);
@@ -135,6 +151,17 @@ public class MainActivity extends Activity {
 		else {
 			showDialog("Error", "You need root access in order to use DroidFrida", true);
 		}
+	}
+
+	@Override
+	public void onStop() {
+		try {
+			writeTextFile(appDataPath + "script.js", scriptInput.getText().toString());
+		}
+		catch (Throwable e) {
+			showToast(e.getMessage());
+		}
+		super.onStop();
 	}
 
 	@Override
@@ -165,17 +192,29 @@ public class MainActivity extends Activity {
 					break;
 			}
 		}
-	}
+    }
 
-	@Override
-	public void onStop() {
+	public void launchClicked(View v) {
 		try {
-			writeTextFile("/data/data/" + getPackageName() + "/script.js", scriptInput.getText().toString());
+			scriptOutput.setText(null);
+			if (rootShell == null || !rootShell.isShellOpen())
+				rootShell = RootShell.getShell(true);
+			writeTextFile(appDataPath + "script.js", scriptInput.getText().toString());
+			showToast("Injecting to the target application...");
+			if (settingSpawnNew.isChecked())
+				rootShell.runRootCommand(new Command(0, new String[]{"killall -v " + pkgName })); 
+			rootShell.runRootCommand(new Command(1, new String[]{ fridaBinaryPath + " -s " + appDataPath + 
+													 "/script.js" +  (settingSpawnNew.isChecked() ? " -f " : " -n ") + pkgName.getText()}) {
+					@Override
+					public void commandOutput(int id, String line) {
+						scriptOutput.append(line + "\n");
+						showToast(line);
+					}
+				});
 		}
-		catch (Throwable e) {
+		catch (Exception e) {
 			showToast(e.getMessage());
 		}
-		super.onStop();
 	}
 
 	public void onJsOptionClicked(View view) {
@@ -196,6 +235,29 @@ public class MainActivity extends Activity {
 		startActivityForResult(intent, 2);
 	}
 
+	public void onUninstallClicked(View v) {
+		try {
+			rootShell.runRootCommand(new Command(0, new String[]{"rm -rf " + fridaBinaryPath}));
+			Intent intent = new Intent(Intent.ACTION_DELETE);
+			intent.setData(Uri.parse("package:" + getPackageName()));
+			startActivity(intent);
+		}
+		catch (Exception e) {
+			showToast("Uninstalation failed" + e.getMessage());
+		}
+	}
+	
+	public void onResourcesClicked(View view) {
+		switch (view.getId()) {
+			case R.id.githubResource:
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://github.com/ac3ss0r/DroidFrida")));
+				break;
+			case R.id.discordResource:
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.gg/bBPs6PGWkK")));
+				break;
+		}
+	}
+
 	public void tabClicked(View v) {
 		for (Map.Entry<View, View> tab : tabs.entrySet()) {
 			View value = tab.getValue(), 
@@ -211,31 +273,8 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	public void launchClicked(View v) {
-		try {
-			scriptOutput.setText(null);
-			if (rootShell == null || !rootShell.isShellOpen())
-				rootShell = RootShell.getShell(true);
-			String dataFolder = "/data/data/" + getPackageName();
-			writeTextFile(dataFolder + "/script.js", scriptInput.getText().toString());
-			showToast("Injecting to the target application...");
-			rootShell.runRootCommand(new Command(0, new String[]{"killall -v " + pkgName })); 
-			rootShell.runRootCommand(new Command(1, new String[]{dataFolder + "/frida64 -s " + dataFolder + 
-													 "/script.js -f " + pkgName.getText()}) {
-					@Override
-					public void commandOutput(int id, String line) {
-						scriptOutput.append(line + "\n");
-						showToast(line);
-					}
-				});
-		}
-		catch (Exception e) {
-			showToast(e.getMessage());
-		}
-	}
-
 	public void onWrapSettingClicked(View v) {
-		scriptInput.setHorizontallyScrolling(((CheckBox)v).isChecked());
+		scriptInput.setHorizontallyScrolling(!((CheckBox)v).isChecked());
 	}
 
 	public  void showDialog(String title, String msg, final boolean exit) {
