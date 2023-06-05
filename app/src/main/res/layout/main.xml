@@ -103,7 +103,7 @@
 				android:id="@+id/editorTabPanel"
 				android:gravity="center_horizontal">
 
-				<acessor.droidfrida.CodeView
+				<acessor.droidfrida.ui.CodeView
 					android:layout_width="match_parent"
 					android:inputType="textMultiLine"
 					android:layout_height="match_parent"
@@ -134,7 +134,8 @@
 						android:layout_height="40dp"
 						android:background="@drawable/border_b"
 						android:scaleType="fitCenter"
-						android:onClick="onOpenScriptClicked"/>
+						android:onClick="onOpenScriptClicked"
+						android:layout_marginStart="5dp"/>
 
 					<ImageButton
 						android:src="@drawable/save_icon"
@@ -142,11 +143,12 @@
 						android:layout_height="40dp"
 						android:background="@drawable/border_b"
 						android:scaleType="fitCenter"
-						android:onClick="onSaveScriptClicked"/>
+						android:onClick="onSaveScriptClicked"
+						android:layout_marginStart="5dp"/>
 
 				</LinearLayout>
 
-				<acessor.droidfrida.FixedSpinner
+				<acessor.droidfrida.ui.FixedSpinner
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:visibility="gone"
@@ -214,6 +216,60 @@
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
+							android:text="Frida settings"
+							android:textAppearance="?android:attr/textAppearanceMedium"
+							android:textAlignment="gravity"
+							android:gravity="center_horizontal"
+							android:background="@drawable/border_b"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Unknown instalation status"
+							android:textAppearance="?android:attr/textAppearanceMedium"
+							android:id="@+id/fridaStatus"/>
+
+						<LinearLayout
+							android:orientation="horizontal"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content">
+
+							<Button
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Full uninstalation"
+								android:onClick="onUninstallClicked"/>
+
+							<Button
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Custom frida binary"/>
+
+						</LinearLayout>
+
+						<RadioGroup
+							android:layout_height="wrap_content"
+							android:layout_width="wrap_content"
+							android:orientation="horizontal">
+
+							<RadioButton
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:checked="true"
+								android:text="Spawn new"
+								android:id="@+id/settingSpawnNew"/>
+
+							<RadioButton
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="Injection to existing"
+								android:id="@+id/settingInjectExisting"/>
+
+						</RadioGroup>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
 							android:text="Editor settings"
 							android:textAppearance="?android:attr/textAppearanceMedium"
 							android:textAlignment="gravity"
@@ -223,7 +279,6 @@
 						<CheckBox
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:checked="true"
 							android:text="Word wrapping"
 							android:onClick="onWrapSettingClicked"/>
 
@@ -253,15 +308,37 @@
 
 						</LinearLayout>
 
-					</LinearLayout>
+						<LinearLayout
+							android:orientation="horizontal"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:gravity="center_vertical|center_horizontal">
 
-					<TextView
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:text="Github - https://github.com/ac3ss0r/DroidFrida\nMade by Acessor"
-						android:textAppearance="?android:attr/textAppearanceSmall"
-						android:textAlignment="gravity"
-						android:gravity="center_vertical|center_horizontal"/>
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="DroidFrida resources:"
+								android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+							<ImageButton
+								android:src="@drawable/github"
+								android:layout_width="50dp"
+								android:layout_height="50dp"
+								android:scaleType="fitCenter"
+								android:id="@+id/githubResource"
+								android:onClick="onResourcesClicked"/>
+
+							<ImageButton
+								android:src="@drawable/discord"
+								android:layout_width="50dp"
+								android:layout_height="50dp"
+								android:scaleType="fitCenter"
+								android:id="@+id/discordResource"
+								android:onClick="onResourcesClicked"/>
+
+						</LinearLayout>
+
+					</LinearLayout>
 
 				</LinearLayout>
 
