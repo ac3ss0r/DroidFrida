@@ -202,8 +202,9 @@ public class MainActivity extends Activity {
 			writeTextFile(appDataPath + "script.js", scriptInput.getText().toString());
 			showToast("Injecting to the target application...");
 			if (settingSpawnNew.isChecked())
-				rootShell.runRootCommand(new Command(0, new String[]{"killall -v " + pkgName })); 
-			rootShell.runRootCommand(new Command(1, new String[]{ fridaBinaryPath + " -s " + appDataPath + 
+				rootShell.runRootCommand(new Command(0, new String[]{"killall -v " + pkgName }));
+			rootShell.runRootCommand(new Command(1,new String[]{"pkill -9 frida64"}));
+			rootShell.runRootCommand(new Command(2, new String[]{ fridaBinaryPath + " -s " + appDataPath +
 													 "/script.js" +  (settingSpawnNew.isChecked() ? " -f " : " -n ") + pkgName.getText()}) {
 					@Override
 					public void commandOutput(int id, String line) {
